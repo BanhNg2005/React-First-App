@@ -7,18 +7,19 @@ import "./App.css";
 const API_URL = `https://www.omdbapi.com/?i=tt3896198&apikey=${process.env.REACT_APP_API_KEY}`;
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [movies, setMovies] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); // State to store the search term
+  const [movies, setMovies] = useState([]); // State to store the movies
 
   useEffect(() => {
-    searchMovies("Mission Impossible");
+    searchMovies("Mission Impossible"); 
   }, []);
 
-  const searchMovies = async (title) => {
+  // Function to search for movies
+  const searchMovies = async (title) => { 
     const response = await fetch(`${API_URL}&s=${title}`);
-    const data = await response.json();
+    const data = await response.json(); // Get the data from the response
 
-    setMovies(data.Search);
+    setMovies(data.Search); // Set the movies in the state
   };
 
   return (
@@ -27,12 +28,12 @@ const App = () => {
 
       <div className="search">
         <input
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={searchTerm} // get the value from the state
+          onChange={(e) => setSearchTerm(e.target.value)} // update the state
           placeholder="Search for a movie..."
         />
         <img
-          src={SearchIcon}
+          src={SearchIcon} 
           alt="search"
           onClick={() => searchMovies(searchTerm)}
         />
@@ -40,15 +41,15 @@ const App = () => {
 
       {movies?.length > 0 ? (
         <div className="container">
-          {movies.map((movie) => (
-            <MovieCard movie={movie} />
+          {movies.map((movie) => ( // Loop through the movies
+            <MovieCard movie={movie} /> // Show the movie card
           ))}
-        </div>
+        </div> // if there are movies, show them
       ) : (
         <div className="empty">
           <h2>No movies found</h2>
-        </div>
-      )}
+        </div> // else, show a message
+      )} 
     </div>
   );
 };

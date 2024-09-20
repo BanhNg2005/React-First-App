@@ -16,10 +16,20 @@ const App = () => {
 
   // Function to search for movies
   const searchMovies = async (title) => { 
-    const response = await fetch(`${API_URL}&s=${title}`);
-    const data = await response.json(); // Get the data from the response
-
-    setMovies(data.Search); // Set the movies in the state
+    try {
+      const response = await fetch(`${API_URL}&s=${title}`);
+      const data = await response.json(); // Get the data from the response
+      if (data.Search) {
+        // Sort movies by year in descending order
+        const sortedMovies = data.Search.sort((a, b) => b.Year - a.Year);
+        setMovies(sortedMovies);
+      } else {
+        setMovies([]);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setMovies([]); // the empty array will show the "No movies found" message
+    }
   };
 
   return (
